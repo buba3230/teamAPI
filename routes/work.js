@@ -26,4 +26,18 @@ router.post("/", (req, res) => {
     });
 });
 
+/* DELETE work from DB by ID. */
+
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from work where id_work=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `work with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 module.exports = router;

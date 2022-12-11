@@ -32,6 +32,21 @@ router.post("/", (req, res) => {
   });
 });
 
+/* DELETE user from DB by ID. */
+
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from user where id_user=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `users with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+
 /* POST new users_type */
 router.post("/users_type", (req, res) => {
   const id_user = req.body.id_user;
@@ -51,6 +66,21 @@ router.post("/users_type", (req, res) => {
     });
   });
 });
+
+/* DELETE  users_type from DB by ID. */
+
+router.delete("/users_type/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from users_type where id_user_type=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `users_type with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 
 /* POST new user_information */
 router.post("/user_information", (req, res) => {
@@ -78,6 +108,20 @@ router.post("/user_information", (req, res) => {
   });
 });
 
+/* DELETE  user_information from DB by ID. */
+
+router.delete("/user_information/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from user_information where id_user_info=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `user_information with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 /* POST new users_work */
 router.post("/users_work", (req, res) => {
   const id_user = req.body.id_user;
@@ -98,6 +142,20 @@ router.post("/users_work", (req, res) => {
   });
 });
 
+/* DELETE users_work from DB by ID. */
+
+router.delete("/users_work/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from users_work where id_users_work=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `users_work with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 /* POST new users_education */
 router.post("/users_education", (req, res) => {
   const id_user = req.body.id_user;
@@ -115,6 +173,20 @@ router.post("/users_education", (req, res) => {
       }
       res.send(selectionResult[0]);
     });
+  });
+});
+
+/* DELETE users_education from DB by ID. */
+
+router.delete("/users_education/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from users_education where id_users_education=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `users_education with id: ${id} was deleted`, deletedId: id });
   });
 });
 

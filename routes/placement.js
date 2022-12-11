@@ -23,6 +23,21 @@ router.post("/state", (req, res) => {
     });
 });
 
+
+/* DELETE state from DB by ID. */
+
+router.delete("/state/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from state where id_state=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `state with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 /* POST new types_of_settlements */
 router.post("/typeOfSettlements", (req, res) => {
     const name_types = req.body.name_types;
@@ -40,6 +55,21 @@ router.post("/typeOfSettlements", (req, res) => {
         res.send(selectionResult[0]);
       });
     });
+});
+
+
+/* DELETE types_of_settlements from DB by ID. */
+
+router.delete("/typeOfSettlements/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from types_of_settlements where id_types=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `typeOfSettlements with id: ${id} was deleted`, deletedId: id });
+  });
 });
 
 /* POST new city */
@@ -63,6 +93,20 @@ router.post("/nameCity", (req, res) => {
     });
 });
 
+/* DELETE city from DB by ID. */
+
+router.delete("/nameCity/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from city where id_city=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `nameCity with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 /* POST new street */
 router.post("/nameStreet", (req, res) => {
     const id_city = req.body.id_city;
@@ -81,6 +125,20 @@ router.post("/nameStreet", (req, res) => {
         res.send(selectionResult[0]);
         });  
     });
+});
+
+/* DELETE street from DB by ID. */
+
+router.delete("/nameStreet/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from street where id_street=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `street with id: ${id} was deleted`, deletedId: id });
+  });
 });
 
 module.exports = router;
