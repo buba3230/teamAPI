@@ -5,11 +5,11 @@ var router = express.Router();
 var db = require("../config/pepperTeamAPI");
 
 /* POST new type_of_users */
-router.post("/type_of_users", (req, res) => {
+router.post("/", (req, res) => {
     const type_name = req.body.type_name;
   
     const data = [type_name];
-    let sql = "INSERT INTO user(type_name) VALUES(?)";
+    let sql = "INSERT INTO type_of_users(type_name) VALUES(?)";
     db.query(sql, [data], (err, result) => {
       if (err) throw err;
       const newId = result.insertId;
