@@ -11,12 +11,13 @@ router.post("/", (req, res) => {
     const data = [type_name];
     let sql = "INSERT INTO type_of_users(type_name) VALUES(?)";
     db.query(sql, [data], (err, result) => {
-      if (err) throw err;
+      if (err) 
+        throw err;
       const newId = result.insertId;
       const resSql = "SELECT * FROM type_of_users WHERE id_type = ?";
       db.query(resSql, [newId], (err, selectionResult) => {
-        if (err || !res.length) {
-            throw err;
+        if (err || !selectionResult.length) {
+          throw err;
         }
         res.send(selectionResult[0]);
       });

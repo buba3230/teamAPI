@@ -5,7 +5,7 @@ var router = express.Router();
 var db = require("../config/pepperTeamAPI");
 
 /* POST new work */
-router.post("/work", (req, res) => {
+router.post("/", (req, res) => {
     const place = req.body.place;
     const position = req.body.position;
     const start_date = req.body.start_date;
@@ -17,11 +17,11 @@ router.post("/work", (req, res) => {
       if (err) throw err;
       const newId = result.insertId;
       const resSql = "SELECT * FROM work WHERE id_work = ?";
-      db.query(resSql, [newId], (err, res) => {
-        if (err || !res.length) {
+      db.query(resSql, [newId], (err, selectionResult) => {
+        if (err || !selectionResult.length) {
             throw err;
         }
-        res.send(res[0]);
+        res.send(selectionResult[0]);
       });
     });
 });

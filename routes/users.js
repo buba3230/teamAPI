@@ -2,13 +2,10 @@ const { request } = require("express");
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var db = require("../config/pepperTeamAPI");
 
 /* POST new user */
-router.post("/user", (req, res) => {
+router.post("/", (req, res) => {
   const login = req.body.login;
   const email = req.body.email;
   const phone = req.body.phone;
@@ -26,11 +23,11 @@ router.post("/user", (req, res) => {
     if (err) throw err;
     const newId = result.insertId;
     const resSql = "SELECT * FROM user WHERE id_user = ?";
-    db.query(resSql, [newId], (err, res) => {
-      if (err || !res.length) {
+    db.query(resSql, [newId], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
           throw err;
       }
-      res.send(res[0]);
+      res.send(selectionResult[0]);
     });
   });
 });
@@ -41,16 +38,16 @@ router.post("/users_type", (req, res) => {
   const id_type = req.body.id_type;
 
   const data = [id_user, id_type];
-  let sql = "INSERT INTO user(id_user, id_type) VALUES(?)";
+  let sql = "INSERT INTO users_type(id_user, id_type) VALUES(?)";
   db.query(sql, [data], (err, result) => {
     if (err) throw err;
     const newId = result.insertId;
     const resSql = "SELECT * FROM users_type WHERE id_user_type = ?";
-    db.query(resSql, [newId], (err, res) => {
-      if (err || !res.length) {
+    db.query(resSql, [newId], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
           throw err;
       }
-      res.send(res[0]);
+      res.send(selectionResult[0]);
     });
   });
 });
@@ -72,11 +69,11 @@ router.post("/user_information", (req, res) => {
     if (err) throw err;
     const newId = result.insertId;
     const resSql = "SELECT * FROM user_information WHERE id_user_info = ?";
-    db.query(resSql, [newId], (err, res) => {
-      if (err || !res.length) {
+    db.query(resSql, [newId], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
           throw err;
       }
-      res.send(res[0]);
+      res.send(selectionResult[0]);
     });
   });
 });
@@ -92,11 +89,11 @@ router.post("/users_work", (req, res) => {
     if (err) throw err;
     const newId = result.insertId;
     const resSql = "SELECT * FROM users_work WHERE id_users_work = ?";
-    db.query(resSql, [newId], (err, res) => {
-      if (err || !res.length) {
+    db.query(resSql, [newId], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
           throw err;
       }
-      res.send(res[0]);
+      res.send(selectionResult[0]);
     });
   });
 });
@@ -111,12 +108,12 @@ router.post("/users_education", (req, res) => {
   db.query(sql, [data], (err, result) => {
     if (err) throw err;
     const newId = result.insertId;
-    const resSql = "SELECT * FROM users_education WHERE id_education = ?";
-    db.query(resSql, [newId], (err, res) => {
-      if (err || !res.length) {
+    const resSql = "SELECT * FROM users_education WHERE id_users_education = ?";
+    db.query(resSql, [newId], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
           throw err;
       }
-      res.send(res[0]);
+      res.send(selectionResult[0]);
     });
   });
 });
