@@ -14,11 +14,11 @@ router.post("/", (req, res) => {
       if (err) throw err;
       const newId = result.insertId;
       const resSql = "SELECT * FROM type_of_users WHERE id_type = ?";
-      db.query(resSql, [newId], (err, res) => {
+      db.query(resSql, [newId], (err, selectionResult) => {
         if (err || !res.length) {
             throw err;
         }
-        res.send(res[0]);
+        res.send(selectionResult[0]);
       });
     });
   });
