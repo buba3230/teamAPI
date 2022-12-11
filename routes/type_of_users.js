@@ -4,26 +4,24 @@ var router = express.Router();
 
 var db = require("../config/pepperTeamAPI");
 
-/* POST new work */
+/* POST new type_of_users */
 router.post("/", (req, res) => {
-    const place = req.body.place;
-    const position = req.body.position;
-    const start_date = req.body.start_date;
-    const end_date = req.body.end_date;
+    const type_name = req.body.type_name;
   
-    const data = [place, position, start_date, end_date];
-    let sql = "INSERT INTO work(place, position, start_date, end_date) VALUES(?)";
+    const data = [type_name];
+    let sql = "INSERT INTO type_of_users(type_name) VALUES(?)";
     db.query(sql, [data], (err, result) => {
-      if (err) throw err;
+      if (err) 
+        throw err;
       const newId = result.insertId;
-      const resSql = "SELECT * FROM work WHERE id_work = ?";
+      const resSql = "SELECT * FROM type_of_users WHERE id_type = ?";
       db.query(resSql, [newId], (err, selectionResult) => {
         if (err || !selectionResult.length) {
-            throw err;
+          throw err;
         }
         res.send(selectionResult[0]);
       });
     });
-});
+  });
 
 module.exports = router;
