@@ -37,10 +37,10 @@ router.get("/", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
       res.send({data: "Table work is empty"});
     } else {
       res.send(result);
-      res.setHeader("Content-Type", "application/json");
     }
   });
 });
