@@ -118,6 +118,121 @@ router.post("/users_education", (req, res) => {
   });
 });
 
+/* UPDATE new user */
+router.put("/:id", (req, res) => {
+
+  //get ID from parameters
+  let id_user=req.params.id;
+
+  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
+  let login = req.body.login;
+  let email = req.body.email;
+  let phone = req.body.phone;
+  let password = req.body.password;
+  let date_of_registration = req.body.date_of_registration;
+  let firstname = req.body.firstname;
+  let lastname = req.body.lastname;
+  let patronymic = req.body.patronymic;
+  let sex = req.body.sex;
+  let birthday = req.body.birthday;
+
+  //modify value to NULL if we dont have data in request
+  //we need NULL to use mySQL function IFNULL!!!
+  login = login ? login : null;
+  email = email ? email : null;
+  phone = phone ? phone : null;
+  password = password ? password : null;
+  date_of_registration = date_of_registration ? date_of_registration : null;
+  firstname = firstname ? firstname : null;
+  lastname = lastname ? lastname : null;
+  patronymic = patronymic ? patronymic : null;
+  sex = sex ? sex : null;
+  birthday = birthday ? birthday : null;
+
+  //build data array
+  const data = [login, email, phone, password, date_of_registration, firstname, lastname, patronymic, sex, birthday, id_user];
+  
+  //create sql for updating
+  //if some data is NULL - update with OLD value - and we dont clear it
+  let sql=`UPDATE user 
+            SET login = IFNULL(?, login),
+                email = IFNULL(?, email),
+                phone = IFNULL(?, phone),
+                password = IFNULL(?, password),
+                date_of_registration = IFNULL(?, date_of_registration),
+                firstname = IFNULL(?, firstname),
+                lastname = IFNULL(?, lastname),
+                patronymic = IFNULL(?, patronymic),
+                sex = IFNULL(?, sex),
+                birthday = IFNULL(?, birthday)
+              WHERE id_user=?`
+  //run query
+  db.query(sql, data, (err, result) => {
+    if (err) throw err;
+    const resSql = "SELECT * FROM user WHERE id_user = ?";
+    db.query(resSql, [id_user], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
+          throw err;
+      }
+      //send result of selection
+      res.send(selectionResult[0]);
+    });
+  });
+});
+
+/* UPDATE new user_information */
+router.put("/user-information/:id", (req, res) => {
+
+  //get ID from parameters
+  let id_user_info=req.params.id;
+
+  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
+  let information_about_user = req.body.information_about_user;
+  let hobby = req.body.hobby;
+  let id_state = req.body.id_state;
+  let id_types = req.body.id_types;
+  let id_city = req.body.id_city;
+  let id_user = req.body.id_user;
+  let house_number = req.body.house_number;
+  
+  //modify value to NULL if we dont have data in request
+  //we need NULL to use mySQL function IFNULL!!!
+  information_about_user = information_about_user ? information_about_user : null;
+  hobby = hobby ? hobby : null;
+  id_state = id_state ? id_state : null;
+  id_types = id_types ? id_types : null;
+  id_city = id_city ? id_city : null;
+  id_user = id_user ? id_user : null;
+  house_number = house_number ? house_number : null;
+
+  //build data array
+  const data = [information_about_user, hobby, id_state, id_types, id_city, id_user, house_number, id_user_info];
+  
+  //create sql for updating
+  //if some data is NULL - update with OLD value - and we dont clear it
+  let sql=`UPDATE user_information 
+            SET information_about_user = IFNULL(?, information_about_user),
+                hobby = IFNULL(?, hobby),
+                id_state = IFNULL(?, id_state),
+                id_types = IFNULL(?, id_types),
+                id_city = IFNULL(?, id_city),
+                id_user = IFNULL(?, id_user),
+                house_number = IFNULL(?, house_number)
+              WHERE id_user_info=?`
+  //run query
+  db.query(sql, data, (err, result) => {
+    if (err) throw err;
+    const resSql = "SELECT * FROM user_information WHERE id_user_info = ?";
+    db.query(resSql, [id_user_info], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
+          throw err;
+      }
+      //send result of selection
+      res.send(selectionResult[0]);
+    });
+  });
+});
+
 /* GET user listing. */
 router.get("/", function (req, res, next) {
 
