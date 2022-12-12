@@ -66,14 +66,12 @@ router.put("/:id", (req, res) => {
                 grade_level = IFNULL(?, grade_level)
               WHERE id_education=?`
   //run query
-  console.log(data);
   db.query(sql, data, (err, result) => {
     if (err) throw err;
     const resSql = "SELECT * FROM education WHERE id_education = ?";
-    db.query(resSql, [id_education], (err, selectionResult) => { console.log(selectionResult);
+    db.query(resSql, [id_education], (err, selectionResult) => {
       if (err || !selectionResult.length) {
-        console.log(err);  
-        // throw err;
+         throw err;
       }
       //send result of selection
       res.send(selectionResult[0]);
