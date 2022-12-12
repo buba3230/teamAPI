@@ -118,4 +118,94 @@ router.post("/users_education", (req, res) => {
   });
 });
 
+/* GET user listing. */
+router.get("/", function (req, res, next) {
+
+    let sql = `select * from user`;
+  
+    db.query(sql, (error, result) => {
+      if (error) {
+        console.error(error);
+        throw error;
+      }
+      if (!result.length) {
+        console.log("Table : user is empty");
+      } else {
+        res.send(result);
+      }
+    });
+});
+
+/* GET users_type listing. */
+router.get("/users_type", function (req, res, next) {
+
+    let sql = `select * from users_type`;
+  
+    db.query(sql, (error, result) => {
+      if (error) {
+        console.error(error);
+        throw error;
+      }
+      if (!result.length) {
+        console.log("Table : users_type is empty");
+      } else {
+        res.send(result);
+      }
+    });
+});
+
+/* GET user_information listing. */
+router.get("/user_information", function (req, res, next) {
+
+  let sql = `select * from user_information`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      console.log("Table : user_information is empty");
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+/* GET users_work listing. */
+router.get("/users_work", function (req, res, next) {
+
+  let sql = `select * from users_work`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      console.log("Table : users_work is empty");
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+/* GET users_education listing. */
+router.get("/users_education", function (req, res, next) {
+
+  let sql = `select * from users_education`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      console.log("Table : users_education is empty");
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 module.exports = router;
