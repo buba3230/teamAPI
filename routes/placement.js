@@ -24,7 +24,7 @@ router.post("/state", (req, res) => {
 });
 
 /* POST new types_of_settlements */
-router.post("/typeOfSettlements", (req, res) => {
+router.post("/type_of_settlements", (req, res) => {
     const name_types = req.body.name_types;
 
     const data = [name_types];
@@ -43,7 +43,7 @@ router.post("/typeOfSettlements", (req, res) => {
 });
 
 /* POST new city */
-router.post("/nameCity", (req, res) => {
+router.post("/city", (req, res) => {
     const id_state = req.body.id_state;
     const id_types = req.body.id_types;
     const name_city = req.body.name_city;
@@ -64,7 +64,7 @@ router.post("/nameCity", (req, res) => {
 });
 
 /* POST new street */
-router.post("/nameStreet", (req, res) => {
+router.post("/street", (req, res) => {
     const id_city = req.body.id_city;
     const name_street = req.body.name_street;
     
@@ -82,5 +82,83 @@ router.post("/nameStreet", (req, res) => {
         });  
     });
 });
+
+
+/* GET state listing. */
+router.get("/state", function (req, res, next) {
+  let sql = `select * from state`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table state is empty"});
+    } else {
+      res.send(result);
+      
+    }
+  });
+});
+
+/* GET types_of_settlements listing. */
+router.get("/types_of_settlements", function (req, res, next) {
+
+  let sql = `select * from types_of_settlements`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table types_of_settlements is empty"});
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+/* GET city listing. */
+router.get("/city", function (req, res, next) {
+
+  let sql = `select * from city`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table city is empty"});
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+/* GET street listing. */
+router.get("/street", function (req, res, next) {
+
+  let sql = `select * from street`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table street is empty"});
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 
 module.exports = router;

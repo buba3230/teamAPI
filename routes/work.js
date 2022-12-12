@@ -26,4 +26,23 @@ router.post("/", (req, res) => {
     });
 });
 
+/* GET work listing. */
+router.get("/", function (req, res, next) {
+
+  let sql = `select * from work`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table work is empty"});
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 module.exports = router;
