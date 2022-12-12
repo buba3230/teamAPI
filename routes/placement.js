@@ -160,5 +160,61 @@ router.get("/street", function (req, res, next) {
   });
 });
 
+/* DELETE types_of_settlements from DB by ID. */
+
+router.delete("/type_of_settlements/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from types_of_settlements where id_types=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `type_of_settlements with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+/* DELETE state from DB by ID. */
+
+router.delete("/state/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from state where id_state=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `state with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+/* DELETE city from DB by ID. */
+
+router.delete("/city/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from city where id_city=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `сity with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+/* DELETE street from DB by ID. */
+
+router.delete("/street/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from street where id_street=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `street with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 
 module.exports = router;

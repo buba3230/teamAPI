@@ -48,4 +48,17 @@ router.get("/", function (req, res, next) {
   });
 });
 
+/* DELETE education from DB by ID. */
+
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from education where id_education=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `education with id: ${id} was deleted`, deletedId: id });
+  });
+});
 module.exports = router;
