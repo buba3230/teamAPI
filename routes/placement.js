@@ -83,4 +83,154 @@ router.post("/nameStreet", (req, res) => {
     });
 });
 
+/* UPDATE new state */
+router.put("/state/:id", (req, res) => {
+
+  //get ID from parameters
+  let id_state=req.params.id;
+
+  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
+  let name_state = req.body.name_state;
+
+  //modify value to NULL if we dont have data in request
+  //we need NULL to use mySQL function IFNULL!!!
+  name_state = name_state ? name_state : null;
+
+  //build data array
+  const data = [name_state, id_state];
+  
+  //create sql for updating
+  //if some data is NULL - update with OLD value - and we dont clear it
+  let sql=`UPDATE state 
+            SET name_state = IFNULL(?, name_state) 
+              WHERE id_state=?`
+  //run query
+  db.query(sql, data, (err, result) => {
+    if (err) throw err;
+    const resSql = "SELECT * FROM state WHERE id_state = ?";
+    db.query(resSql, [id_state], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
+          throw err;
+      }
+      //send result of selection
+      res.send(selectionResult[0]);
+    });
+  });
+});
+
+/* UPDATE new types_of_settlements */
+router.put("/types-of-settlements/:id", (req, res) => {
+
+  //get ID from parameters
+  let id_types=req.params.id;
+
+  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
+  let name_types = req.body.name_types;
+
+  //modify value to NULL if we dont have data in request
+  //we need NULL to use mySQL function IFNULL!!!
+  name_types = name_types ? name_types : null;
+
+  //build data array
+  const data = [name_types, id_types];
+  
+  //create sql for updating
+  //if some data is NULL - update with OLD value - and we dont clear it
+  let sql=`UPDATE types_of_settlements 
+            SET name_types = IFNULL(?, name_types) 
+              WHERE id_types=?`
+  //run query
+  db.query(sql, data, (err, result) => {
+    if (err) throw err;
+    const resSql = "SELECT * FROM types_of_settlements WHERE id_types = ?";
+    db.query(resSql, [id_types], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
+          throw err;
+      }
+      //send result of selection
+      res.send(selectionResult[0]);
+    });
+  });
+});
+
+/* UPDATE new city */
+router.put("/city/:id", (req, res) => {
+
+  //get ID from parameters
+  let id_city=req.params.id;
+
+  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
+  let id_state = req.body.id_state;
+  let id_types = req.body.id_types;
+  let name_city = req.body.name_city;
+
+
+  //modify value to NULL if we dont have data in request
+  //we need NULL to use mySQL function IFNULL!!!
+  id_state = id_state ? id_state : null;
+  id_types = id_types ? id_types : null;
+  name_city = name_city ? name_city : null;
+
+  //build data array
+  const data = [id_state, id_types, name_city, id_city];
+  
+  //create sql for updating
+  //if some data is NULL - update with OLD value - and we dont clear it
+  let sql=`UPDATE city 
+            SET id_state = IFNULL(?, id_state),
+                id_types = IFNULL(?, id_types), 
+                name_city = IFNULL(?, name_city) 
+              WHERE id_city=?`
+  //run query
+  db.query(sql, data, (err, result) => {
+    if (err) throw err;
+    const resSql = "SELECT * FROM city WHERE id_city = ?";
+    db.query(resSql, [id_city], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
+          throw err;
+      }
+      //send result of selection
+      res.send(selectionResult[0]);
+    });
+  });
+});
+
+/* UPDATE new street */
+router.put("/street/:id", (req, res) => {
+
+  //get ID from parameters
+  let id_street=req.params.id;
+
+  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
+  let id_city = req.body.id_city;
+  let name_street = req.body.name_street;
+
+  //modify value to NULL if we dont have data in request
+  //we need NULL to use mySQL function IFNULL!!!
+  id_city = id_city ? id_city : null;
+  name_street = name_street ? name_street : null;
+
+  //build data array
+  const data = [id_city, name_street, id_street];
+  
+  //create sql for updating
+  //if some data is NULL - update with OLD value - and we dont clear it
+  let sql=`UPDATE street 
+            SET id_city = IFNULL(?, id_city),
+                name_street = IFNULL(?, name_street) 
+              WHERE id_street=?`
+  //run query
+  db.query(sql, data, (err, result) => {
+    if (err) throw err;
+    const resSql = "SELECT * FROM street WHERE id_street = ?";
+    db.query(resSql, [id_street], (err, selectionResult) => {
+      if (err || !selectionResult.length) {
+          throw err;
+      }
+      //send result of selection
+      res.send(selectionResult[0]);
+    });
+  });
+});
+
 module.exports = router;
