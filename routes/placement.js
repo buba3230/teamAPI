@@ -86,7 +86,6 @@ router.post("/street", (req, res) => {
 
 /* GET state listing. */
 router.get("/state", function (req, res, next) {
-
   let sql = `select * from state`;
 
   db.query(sql, (error, result) => {
@@ -95,9 +94,10 @@ router.get("/state", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
-      console.log("Table : state is empty");
+      res.send({data: "Table state is empty"});
     } else {
       res.send(result);
+      res.setHeader("Content-Type", "application/json");
     }
   });
 });
@@ -113,9 +113,10 @@ router.get("/types_of_settlements", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
-      console.log("Table : types_of_settlements is empty");
+      res.send({data: "Table types_of_settlements is empty"});
     } else {
       res.send(result);
+      res.setHeader("Content-Type", "application/json");
     }
   });
 });
@@ -131,9 +132,10 @@ router.get("/city", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
-      console.log("Table : city is empty");
+      res.send({data: "Table city is empty"});
     } else {
       res.send(result);
+      res.setHeader("Content-Type", "application/json");
     }
   });
 });
@@ -149,9 +151,10 @@ router.get("/street", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
-      console.log("Table : street is empty");
+      res.send({data: "Table street is empty"});
     } else {
       res.send(result);
+      res.setHeader("Content-Type", "application/json");
     }
   });
 });

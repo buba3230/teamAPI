@@ -129,9 +129,10 @@ router.get("/", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
-      console.log("Table : user is empty");
+      res.send({data: "Table user is empty"});
     } else {
       res.send(result);
+      res.setHeader("Content-Type", "application/json");
     }
   });
 });
@@ -147,9 +148,10 @@ router.get("/users_type", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
-      console.log("Table : users_type is empty");
+      res.send({data: "Table users_type is empty"});
     } else {
       res.send(result);
+      res.setHeader("Content-Type", "application/json");
     }
   });
 });
@@ -165,9 +167,10 @@ db.query(sql, (error, result) => {
     throw error;
   }
   if (!result.length) {
-    console.log("Table : user_information is empty");
+    res.send({data: "Table user_information is empty"});
   } else {
     res.send(result);
+    res.setHeader("Content-Type", "application/json");
   }
 });
 });
@@ -183,9 +186,10 @@ db.query(sql, (error, result) => {
     throw error;
   }
   if (!result.length) {
-    console.log("Table : users_work is empty");
+    res.send({data: "Table users_work is empty"});
   } else {
     res.send(result);
+    res.setHeader("Content-Type", "application/json");
   }
 });
 });
@@ -201,9 +205,10 @@ db.query(sql, (error, result) => {
     throw error;
   }
   if (!result.length) {
-    console.log("Table : users_education is empty");
+    res.send({data: "Table users_education is empty"});
   } else {
     res.send(result);
+    res.setHeader("Content-Type", "application/json");
   }
 });
 });

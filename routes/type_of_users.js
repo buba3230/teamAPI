@@ -35,9 +35,10 @@ router.get("/", function (req, res, next) {
       throw error;
     }
     if (!result.length) {
-      console.log("Table : type_of_users is empty");
+      res.send({data: "Table type_of_users is empty"});
     } else {
       res.send(result);
+      res.setHeader("Content-Type", "application/json");
     }
   });
 });
