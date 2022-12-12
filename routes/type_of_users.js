@@ -43,4 +43,18 @@ router.get("/", function (req, res, next) {
   });
 });
 
+/* DELETE type_of_users from DB by ID. */
+
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from type_of_users where id_type=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `type_of_users with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 module.exports = router;
