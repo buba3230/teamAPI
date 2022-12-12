@@ -180,45 +180,6 @@ router.put("/:id", (req, res) => {
   });
 });
 
-/* UPDATE new users_type */
-router.put("/users-type/:id", (req, res) => {
-
-  //get ID from parameters
-  let id_user_type=req.params.id;
-
-  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
-  let id_user = req.body.id_user;
-  let id_type = req.body.id_type;
-  
-  //modify value to NULL if we dont have data in request
-  //we need NULL to use mySQL function IFNULL!!!
-  id_user = id_user ? id_user : null;
-  id_type = id_type ? id_type : null;
-  
-
-  //build data array
-  const data = [id_user, id_type, id_user_type];
-  
-  //create sql for updating
-  //if some data is NULL - update with OLD value - and we dont clear it
-  let sql=`UPDATE users_type 
-            SET id_user = IFNULL(?, id_user),
-                id_type = IFNULL(?, id_type)
-              WHERE id_user_type=?`
-  //run query
-  db.query(sql, data, (err, result) => {
-    if (err) throw err;
-    const resSql = "SELECT * FROM users_type WHERE id_user_type = ?";
-    db.query(resSql, [id_user_type], (err, selectionResult) => {
-      if (err || !selectionResult.length) {
-          throw err;
-      }
-      //send result of selection
-      res.send(selectionResult[0]);
-    });
-  });
-});
-
 /* UPDATE new user_information */
 router.put("/user-information/:id", (req, res) => {
 
@@ -272,82 +233,169 @@ router.put("/user-information/:id", (req, res) => {
   });
 });
 
-/* UPDATE new users_work */
-router.put("/users-work/:id", (req, res) => {
+/* GET user listing. */
+router.get("/", function (req, res, next) {
 
-  //get ID from parameters
-  let id_users_work=req.params.id;
+  let sql = `select * from user`;
 
-  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
-  let id_user = req.body.id_user;
-  let id_work = req.body.id_work;
-  
-  //modify value to NULL if we dont have data in request
-  //we need NULL to use mySQL function IFNULL!!!
-  id_user = id_user ? id_user : null;
-  id_work = id_work ? id_work : null;
-  
-
-  //build data array
-  const data = [id_user, id_work, id_users_work];
-  
-  //create sql for updating
-  //if some data is NULL - update with OLD value - and we dont clear it
-  let sql=`UPDATE users_work 
-            SET id_user = IFNULL(?, id_user),
-                id_work = IFNULL(?, id_work)
-              WHERE id_users_work=?`
-  //run query
-  db.query(sql, data, (err, result) => {
-    if (err) throw err;
-    const resSql = "SELECT * FROM users_work WHERE id_users_work = ?";
-    db.query(resSql, [id_users_work], (err, selectionResult) => {
-      if (err || !selectionResult.length) {
-          throw err;
-      }
-      //send result of selection
-      res.send(selectionResult[0]);
-    });
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table user is empty"});
+    } else {
+      res.send(result);
+    }
   });
 });
 
-/* UPDATE new users_education */
-router.put("/users-education/:id", (req, res) => {
+/* GET users_type listing. */
+router.get("/users_type", function (req, res, next) {
 
-  //get ID from parameters
-  let id_users_education=req.params.id;
+  let sql = `select * from users_type`;
 
-  //get value from body to LET variable - because we need to modify it later (there is no nullish coelastic operator)
-  let id_user = req.body.id_user;
-  let id_education = req.body.id_education;
-  
-  //modify value to NULL if we dont have data in request
-  //we need NULL to use mySQL function IFNULL!!!
-  id_user = id_user ? id_user : null;
-  id_education = id_education ? id_education : null;
-  
-
-  //build data array
-  const data = [id_user, id_education, id_users_education];
-  
-  //create sql for updating
-  //if some data is NULL - update with OLD value - and we dont clear it
-  let sql=`UPDATE users_work 
-            SET id_user = IFNULL(?, id_user),
-            id_education = IFNULL(?, id_education)
-              WHERE id_users_education=?`
-  //run query
-  db.query(sql, data, (err, result) => {
-    if (err) throw err;
-    const resSql = "SELECT * FROM users_education WHERE id_users_education = ?";
-    db.query(resSql, [id_users_education], (err, selectionResult) => {
-      if (err || !selectionResult.length) {D
-          throw err;
-      }
-      //send result of selection
-      res.send(selectionResult[0]);
-    });
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table users_type is empty"});
+    } else {
+      res.send(result);
+    }
   });
 });
 
+/* GET user_information listing. */
+router.get("/user_information", function (req, res, next) {
+
+let sql = `select * from user_information`;
+
+db.query(sql, (error, result) => {
+  if (error) {
+    console.error(error);
+    throw error;
+  }
+  if (!result.length) {
+    res.setHeader("Content-Type", "application/json");
+    res.send({data: "Table user_information is empty"});
+  } else {
+    res.send(result);
+  }
+});
+});
+
+/* GET users_work listing. */
+router.get("/users_work", function (req, res, next) {
+
+let sql = `select * from users_work`;
+
+db.query(sql, (error, result) => {
+  if (error) {
+    console.error(error);
+    throw error;
+  }
+  if (!result.length) {
+    res.setHeader("Content-Type", "application/json");
+    res.send({data: "Table users_work is empty"});
+  } else {
+    res.send(result);
+  }
+});
+});
+
+/* GET users_education listing. */
+router.get("/users_education", function (req, res, next) {
+
+let sql = `select * from users_education`;
+
+db.query(sql, (error, result) => {
+  if (error) {
+    console.error(error);
+    throw error;
+  }
+  if (!result.length) {
+    res.setHeader("Content-Type", "application/json");
+    res.send({data: "Table users_education is empty"});
+  } else {
+    res.send(result);
+  }
+});
+});
+
+/* DELETE user from DB by ID. */
+
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from user where id_user=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `users with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+/* DELETE  users_type from DB by ID. */
+
+router.delete("/users_type/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from users_type where id_user_type=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `users_type with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+/* DELETE  user_information from DB by ID. */
+
+router.delete("/user_information/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from user_information where id_user_info=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `user_information with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+/* DELETE users_work from DB by ID. */
+
+router.delete("/users_work/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from users_work where id_users_work=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `users_work with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
+
+/* DELETE users_education from DB by ID. */
+
+router.delete("/users_education/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from users_education where id_users_education=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `users_education with id: ${id} was deleted`, deletedId: id });
+  });
+});
 module.exports = router;

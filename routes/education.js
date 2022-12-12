@@ -81,4 +81,38 @@ router.put("/:id", (req, res) => {
   });
 });
 
+/* GET education listing. */
+router.get("/", function (req, res, next) {
+
+  let sql = `select * from education`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table education is empty"});
+    } else {
+      res.send(result);
+      
+    }
+  });
+});
+
+/* DELETE education from DB by ID. */
+
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from education where id_education=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+    res.setHeader("Content-Type", "application/json");
+    res.send({ data: `education with id: ${id} was deleted`, deletedId: id });
+  });
+});
+
 module.exports = router;

@@ -66,7 +66,41 @@ router.put("/:id", (req, res) => {
       }
       //send result of selection
       res.send(selectionResult[0]);
+        });
     });
+});
+
+/* GET work listing. */
+router.get("/", function (req, res, next) {
+
+  let sql = `select * from work`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      res.setHeader("Content-Type", "application/json");
+      res.send({data: "Table work is empty"});
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+/* DELETE work from DB by ID. */
+
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = "delete from work where id_work=?";
+
+  db.query(sql, [id], (err, result) => {
+    if (err) throw err;
+
+    res.send({ data: `work with id: ${id} was deleted`, deletedId: id });
+
   });
 });
 
