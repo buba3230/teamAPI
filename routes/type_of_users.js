@@ -24,4 +24,22 @@ router.post("/", (req, res) => {
     });
   });
 
+  /* GET type_of_users listing. */
+router.get("/", function (req, res, next) {
+
+  let sql = `select * from type_of_users`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      console.log("Table : type_of_users is empty");
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 module.exports = router;

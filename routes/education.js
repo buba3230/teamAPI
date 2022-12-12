@@ -28,4 +28,22 @@ router.post("/", (req, res) => {
     });
 });
 
+/* GET education listing. */
+router.get("/", function (req, res, next) {
+
+  let sql = `select * from education`;
+
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+    if (!result.length) {
+      console.log("Table : education is empty");
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 module.exports = router;
